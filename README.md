@@ -1,11 +1,11 @@
-# babel-plugin-react-display-name
+# babel-plugin-react-auto-display-name
 
-Add displayName to React.createClass calls
+Add displayName to React.createClass calls.
 
 ## Installation
 
 ```sh
-$ npm install babel-plugin-react-display-name
+$ npm install babel-plugin-react-auto-display-name
 ```
 
 ## Usage
@@ -16,20 +16,24 @@ $ npm install babel-plugin-react-display-name
 
 ```json
 {
-  "plugins": ["react-display-name"]
+  "plugins": ["react-auto-display-name"]
 }
 ```
 
 ### Via CLI
 
 ```sh
-$ babel --plugins react-display-name script.js
+$ babel --plugins react-auto-display-name script.js
 ```
 
 ### Via Node API
 
 ```javascript
 require("babel-core").transform("code", {
-  plugins: ["react-display-name"]
+  plugins: ["react-auto-display-name"]
 });
 ```
+
+## License
+
+MIT

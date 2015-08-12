@@ -1,17 +1,20 @@
 {
-  "name": "babel-plugin-react-display-name",
-  "version": "1.0.3",
+  "name": "babel-plugin-react-auto-display-name",
+  "version": "0.0.1",
   "description": "Add displayName to React.createClass calls",
-  "repository": "babel-plugins/babel-plugin-react-display-name",
+  "author": "Veselin Todorov <hi@vesln.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "homepage": "https://github.com/vesln/babel-plugin-react-auto-display-name",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vesln/babel-plugin-react-auto-display-name"
+  },
   "devDependencies": {
     "babel": "^5.6.0"
   },
   "scripts": {
-    "build": "babel-plugin build",
-    "push": "babel-plugin publish",
-    "test": "babel-plugin test"
+    "build": "babel-plugin build"
   },
   "keywords": [
     "babel-plugin"

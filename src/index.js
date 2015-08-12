@@ -1,4 +1,13 @@
 export default function ({ Plugin, types: t }) {
+  function buildDisplayName(filename) {
+    return filename
+      .replace(/(.*)components/, '')
+      .replace(/^\//, '')
+      .replace('.js', '')
+      .replace(/\/index$/, '')
+      .replace(/\//g, '.');
+  }
+
   function addDisplayName(id, call) {
     var props = call.arguments[0].properties;
     var safe = true;
@@ -13,7 +22,7 @@ export default function ({ Plugin, types: t }) {
     }
 
     if (safe) {
-      props.unshift(t.property("init", t.identifier("displayName"), t.literal(id)));
+      props.unshift(t.property("init", t.identifier("displayName"), t.literal(buildDisplayName(id))));
     }
   }
 
@@ -35,8 +44,8 @@ export default function ({ Plugin, types: t }) {
 
     return true;
   }
-  
-  return new Plugin("react-display-name", {
+
+  return new Plugin("react-auto-display-name", {
     metadata: {
       group: "builtin-pre"
     },
@@ -44,10 +53,10 @@ export default function ({ Plugin, types: t }) {
     visitor: {
       ExportDefaultDeclaration(node, parent, scope, file) {
         if (isCreateClass(node.declaration)) {
-          addDisplayName(file.opts.basename, node.declaration);
+          addDisplayName(file.opts.filename, node.declaration);
         }
       },
-      
+
       "AssignmentExpression|Property|VariableDeclarator"(node) {
         var left, right;
 
