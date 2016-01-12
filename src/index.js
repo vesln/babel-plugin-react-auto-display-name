@@ -1,4 +1,4 @@
-export default function ({ Plugin, types: t }) {
+export default function ({ types: t }) {
   function buildDisplayName(filename) {
     return filename
       .replace(/^.*!([^!]+)$/, "$1") // Remove webpack stuff
@@ -46,7 +46,7 @@ export default function ({ Plugin, types: t }) {
     return true;
   }
 
-  return new Plugin("react-auto-display-name", {
+  return {
     metadata: {
       group: "builtin-pre"
     },
@@ -85,5 +85,5 @@ export default function ({ Plugin, types: t }) {
         }
       }
     }
-  });
+  };
 }
