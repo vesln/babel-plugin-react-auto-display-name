@@ -1,9 +1,10 @@
-export default function ({ Plugin, types: t }) {
+export default function ({ types: t }) {
   function buildDisplayName(filename) {
     return filename
+      .replace(/^.*!([^!]+)$/, "$1") // Remove webpack stuff
       .replace(/(.*)components/, '')
       .replace(/^\//, '')
-      .replace('.js', '')
+      .replace(/\.[a-z]+$/, '') // Remove extension
       .replace(/\/index$/, '')
       .replace(/\//g, '.');
   }
@@ -45,7 +46,7 @@ export default function ({ Plugin, types: t }) {
     return true;
   }
 
-  return new Plugin("react-auto-display-name", {
+  return {
     metadata: {
       group: "builtin-pre"
     },
@@ -57,8 +58,8 @@ export default function ({ Plugin, types: t }) {
         }
       },
 
-      "AssignmentExpression|Property|VariableDeclarator"(node) {
-        var left, right;
+      "AssignmentExpression|Property|VariableDeclarator"(node, parent, scope, file) {
+        var left, right, filename;
 
         if (t.isAssignmentExpression(node)) {
           left = node.left;
@@ -72,13 +73,17 @@ export default function ({ Plugin, types: t }) {
         }
 
         if (t.isMemberExpression(left)) {
+          if (left.object.name == 'module' && left.property.name == 'exports') {
+            filename = file.opts.filename;
+          }
           left = left.property;
         }
 
         if (t.isIdentifier(left) && isCreateClass(right)) {
-          addDisplayName(left.name, right);
+          filename = filename || left.name;
+          addDisplayName(filename, right);
         }
       }
     }
-  });
+  };
 }
